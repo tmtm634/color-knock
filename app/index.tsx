@@ -4,7 +4,7 @@ import { Dimensions, ImageBackground, StyleSheet, Text, View } from 'react-nativ
 import { GradeRadioGroup } from '../components/GradeRadioGroup';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { QuizModeSelector } from '../components/QuizModeSelector';
-import { button, colors, layout, selection } from './styles/tokens';
+import { button, layout, selection } from './styles/tokens';
 
 const GRADES = ['1級', '2級', '3級'];
 const MODES = [
@@ -48,51 +48,52 @@ export default function Home() {
     const [selectedModeIndex, setSelectedModeIndex] = useState(0);
 
     return (
-        <ImageBackground
-            source={require('../assets/images/home.png')}
-            style={{ flex: 1 }}
-            resizeMode="cover"
-        >
-            <View style={styles.container}>
-                <View style={styles.content}>
-                    <View>
-                        <Text style={styles.title}>級を選択</Text>
-                        <View style={{ paddingHorizontal: 24 }}>
-                            <GradeRadioGroup
-                                grades={GRADES}
-                                selectedGrade={selectedGrade}
-                                onSelect={setSelectedGrade}
+        <View style={{ flex: 1, backgroundColor: '#FFFEF7' }}>
+            <ImageBackground
+                source={require('../assets/images/home.png')}
+                style={{ flex: 1 }}
+                resizeMode="cover"
+            >
+                <View style={styles.container}>
+                    <View style={styles.content}>
+                        <View>
+                            <Text style={styles.title}>級を選択</Text>
+                            <View style={{ paddingHorizontal: 24 }}>
+                                <GradeRadioGroup
+                                    grades={GRADES}
+                                    selectedGrade={selectedGrade}
+                                    onSelect={setSelectedGrade}
+                                />
+                            </View>
+                            <View style={{ height: 48 }} />
+                            <Text style={styles.title}>クイズモードを選択</Text>
+                            <QuizModeSelector
+                                modes={MODES}
+                                selectedIndex={selectedModeIndex}
+                                onSelect={setSelectedModeIndex}
                             />
                         </View>
-                        <View style={{ height: 48 }} />
-                        <Text style={styles.title}>クイズモードを選択</Text>
-                        <QuizModeSelector
-                            modes={MODES}
-                            selectedIndex={selectedModeIndex}
-                            onSelect={setSelectedModeIndex}
-                        />
-                    </View>
 
-                    <View style={{ paddingHorizontal: 24 }}>
-                        <Link
-                            href={{ pathname: '/quiz', params: { grade: selectedGrade, mode: MODES[selectedModeIndex].key } }}
-                            asChild
-                        >
-                            <PrimaryButton>
-                                クイズをスタート
-                            </PrimaryButton>
-                        </Link>
+                        <View style={{ paddingHorizontal: 24 }}>
+                            <Link
+                                href={{ pathname: '/quiz', params: { grade: selectedGrade, mode: MODES[selectedModeIndex].key } }}
+                                asChild
+                            >
+                                <PrimaryButton>
+                                    クイズをスタート
+                                </PrimaryButton>
+                            </Link>
+                        </View>
                     </View>
                 </View>
-            </View>
-        </ImageBackground>
+            </ImageBackground>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.background,
     },
     content: {
         flex: 1,

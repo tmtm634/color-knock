@@ -19,7 +19,7 @@ interface Props {
     onSelect: (index: number) => void;
 }
 
-const CARD_WIDTH = 320;
+const CARD_WIDTH = 329;
 const CARD_GAP = 16;
 const snapWidth = CARD_WIDTH + CARD_GAP;
 const SIDE_PADDING = (Dimensions.get('window').width - CARD_WIDTH) / 2;
@@ -62,7 +62,7 @@ export const QuizModeSelector: React.FC<Props> = ({ modes, selectedIndex, onSele
                         <View style={styles.modeCardBottom}>
                             <Image
                                 source={mode.image}
-                                style={{ width: 320, height: 162, alignSelf: 'center' }}
+                                style={{ width: 329, height: 162, alignSelf: 'center' }}
                                 resizeMode="contain"
                             />
                         </View>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 29,
         borderTopRightRadius: 29,
         zIndex: 2,
-        alignItems: 'center',
+        alignItems: 'flex-start',
         justifyContent: 'center',
         paddingVertical: 28,
         paddingHorizontal: 24,
