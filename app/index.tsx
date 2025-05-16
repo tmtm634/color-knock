@@ -20,7 +20,7 @@ const MODES = [
     },
     {
         key: 'name-to-color',
-        title: '色名から色を当てる',
+        title: '由来から色名を当てる',
         example: {
             color: '#0000FF',
             name: '青'
