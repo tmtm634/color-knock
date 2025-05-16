@@ -1,204 +1,115 @@
 import { Link } from 'expo-router';
 import { useState } from 'react';
-import { Dimensions, FlatList, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, ImageBackground, StyleSheet, Text, View } from 'react-native';
+import { GradeRadioGroup } from '../components/GradeRadioGroup';
+import { PrimaryButton } from '../components/PrimaryButton';
+import { QuizModeSelector } from '../components/QuizModeSelector';
+import { button, colors, layout, selection } from './styles/tokens';
 
 const GRADES = ['1級', '2級', '3級'];
 const MODES = [
     {
         key: 'color-to-name',
         title: '色から色名を当てる',
-        image: require('../assets/images/mode_color_to_name.png'),
-        description: '色を見て色名を選ぶ',
+        example: {
+            color: '#F6C6E5',
+            name: '桜色'
+        },
+        image: require('../assets/images/mode1.png'),
+        aspectRatio: 987 / 486,
     },
     {
-        key: 'origin-to-name',
-        title: '由来から色名を当てる',
-        image: require('../assets/images/mode_origin_to_name.png'),
-        description: '由来説明から色名を選ぶ',
+        key: 'name-to-color',
+        title: '色名から色を当てる',
+        example: {
+            color: '#0000FF',
+            name: '青'
+        },
+        image: require('../assets/images/mode2.png'),
+        aspectRatio: 987 / 486,
     },
     {
         key: 'name-to-pccs',
         title: '色名からPCCS記号を当てる',
-        image: require('../assets/images/mode_name_to_pccs.png'),
-        description: '色名からPCCS記号を選ぶ',
-    },
+        example: {
+            color: '#00FF00',
+            name: '緑'
+        },
+        image: require('../assets/images/mode3.png'),
+        aspectRatio: 987 / 486,
+    }
 ];
 
 const { width } = Dimensions.get('window');
-const CARD_WIDTH = width * 0.8;
+const CARD_WIDTH = width - (layout.padding.horizontal * 2);
 
 export default function Home() {
     const [selectedGrade, setSelectedGrade] = useState('1級');
     const [selectedModeIndex, setSelectedModeIndex] = useState(0);
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.label}>級を選択</Text>
-            <View style={styles.gradeRow}>
-                {GRADES.map((grade) => (
-                    <TouchableOpacity
-                        key={grade}
-                        style={[styles.gradeButton, selectedGrade === grade && styles.gradeButtonSelected]}
-                        onPress={() => setSelectedGrade(grade)}
-                    >
-                        <Text style={[styles.gradeText, selectedGrade === grade && styles.gradeTextSelected]}>{grade}</Text>
-                    </TouchableOpacity>
-                ))}
-            </View>
-            <Text style={styles.label}>クイズモードを選択</Text>
-            <FlatList
-                data={MODES}
-                horizontal
-                pagingEnabled
-                showsHorizontalScrollIndicator={false}
-                style={styles.cardList}
-                contentContainerStyle={{ alignItems: 'center' }}
-                snapToInterval={CARD_WIDTH + 20}
-                decelerationRate="fast"
-                onMomentumScrollEnd={e => {
-                    const idx = Math.round(e.nativeEvent.contentOffset.x / (CARD_WIDTH + 20));
-                    setSelectedModeIndex(idx);
-                }}
-                renderItem={({ item, index }) => (
-                    <View style={[styles.card, index === selectedModeIndex && styles.cardSelected]}>
-                        <Text style={styles.cardTitle}>{item.title}</Text>
-                        <Image source={item.image} style={styles.cardImage} resizeMode="contain" />
-                        <Text style={styles.cardDesc}>{item.description}</Text>
+        <ImageBackground
+            source={require('../assets/images/home.png')}
+            style={{ flex: 1 }}
+            resizeMode="cover"
+        >
+            <View style={styles.container}>
+                <View style={styles.content}>
+                    <View>
+                        <Text style={styles.title}>級を選択</Text>
+                        <View style={{ paddingHorizontal: 24 }}>
+                            <GradeRadioGroup
+                                grades={GRADES}
+                                selectedGrade={selectedGrade}
+                                onSelect={setSelectedGrade}
+                            />
+                        </View>
+                        <View style={{ height: 48 }} />
+                        <Text style={styles.title}>クイズモードを選択</Text>
+                        <QuizModeSelector
+                            modes={MODES}
+                            selectedIndex={selectedModeIndex}
+                            onSelect={setSelectedModeIndex}
+                        />
                     </View>
-                )}
-                keyExtractor={item => item.key}
-                getItemLayout={(_, index) => ({ length: CARD_WIDTH + 20, offset: (CARD_WIDTH + 20) * index, index })}
-            />
-            <View style={styles.dotsRow}>
-                {MODES.map((_, idx) => (
-                    <View key={idx} style={[styles.dot, idx === selectedModeIndex && styles.dotActive]} />
-                ))}
+
+                    <View style={{ paddingHorizontal: 24 }}>
+                        <Link
+                            href={{ pathname: '/quiz', params: { grade: selectedGrade, mode: MODES[selectedModeIndex].key } }}
+                            asChild
+                        >
+                            <PrimaryButton>
+                                クイズをスタート
+                            </PrimaryButton>
+                        </Link>
+                    </View>
+                </View>
             </View>
-            <Link
-                href={{ pathname: '/quiz', params: { grade: selectedGrade, mode: MODES[selectedModeIndex].key } }}
-                asChild
-            >
-                <TouchableOpacity style={styles.startButton}>
-                    <Text style={styles.startButtonText}>クイズをスタート</Text>
-                </TouchableOpacity>
-            </Link>
-        </View>
+        </ImageBackground>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FCFBF5',
-        alignItems: 'center',
-        paddingTop: 60,
+        backgroundColor: colors.background,
+    },
+    content: {
+        flex: 1,
+        paddingTop: layout.padding.top,
+        paddingBottom: layout.padding.bottom,
         paddingHorizontal: 0,
+        justifyContent: 'space-between',
     },
-    label: {
-        fontSize: 22,
-        fontWeight: '500',
-        marginBottom: 16,
-        marginTop: 8,
-        color: '#181818',
-        alignSelf: 'center',
-    },
-    gradeRow: {
-        flexDirection: 'row',
-        marginBottom: 32,
-        gap: 16,
-    },
-    gradeButton: {
-        borderWidth: 1,
-        borderColor: '#181818',
-        borderRadius: 40,
-        paddingHorizontal: 32,
-        paddingVertical: 18,
-        marginHorizontal: 4,
-        backgroundColor: '#FCFBF5',
-    },
-    gradeButtonSelected: {
-        backgroundColor: '#181818',
-    },
-    gradeText: {
-        fontSize: 20,
-        color: '#181818',
-        fontWeight: '500',
-    },
-    gradeTextSelected: {
-        color: '#fff',
-    },
-    cardList: {
-        flexGrow: 0,
-        height: 260,
-        marginBottom: 8,
-    },
-    card: {
-        width: CARD_WIDTH,
-        height: 240,
-        backgroundColor: '#fff',
-        borderRadius: 32,
-        marginHorizontal: 10,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderWidth: 1,
-        borderColor: '#DADADA',
-        shadowColor: '#000',
-        shadowOpacity: 0.04,
-        shadowRadius: 8,
-        shadowOffset: { width: 0, height: 2 },
-    },
-    cardSelected: {
-        borderColor: '#181818',
-        borderWidth: 2,
-    },
-    cardTitle: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#181818',
-        marginBottom: 8,
-        marginTop: 8,
-    },
-    cardImage: {
-        width: 80,
-        height: 80,
-        marginBottom: 8,
-    },
-    cardDesc: {
-        fontSize: 14,
-        color: '#444',
-        textAlign: 'center',
-    },
-    dotsRow: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 32,
-        marginTop: 8,
-    },
-    dot: {
-        width: 10,
-        height: 10,
-        borderRadius: 5,
-        backgroundColor: '#DADADA',
-        marginHorizontal: 4,
-    },
-    dotActive: {
-        backgroundColor: '#181818',
+    title: {
+        ...selection.title,
+        paddingHorizontal: 24,
     },
     startButton: {
-        backgroundColor: '#181818',
-        borderRadius: 40,
-        paddingHorizontal: 40,
-        paddingVertical: 18,
-        marginTop: 16,
-        marginBottom: 24,
-        alignSelf: 'center',
-        width: width * 0.9,
+        ...button.primary.container,
+        marginBottom: 32,
     },
     startButtonText: {
-        color: '#fff',
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
+        ...button.primary.text,
     },
 });

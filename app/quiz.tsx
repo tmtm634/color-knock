@@ -1,18 +1,8 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Dimensions, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
-const colors3 = [
-    { name: '桜色', hex: '#F6C6E5', pccs: 'p24+', munsell: '10RP 9/2.5', desc: '3級：桜色の説明' },
-    { name: '青', hex: '#0000FF', pccs: 'b14', munsell: '5PB 5/12', desc: '3級：青の説明' },
-    { name: '緑', hex: '#00FF00', pccs: 'g24', munsell: '5G 6/8', desc: '3級：緑の説明' },
-];
-const colors2 = [
-    { name: '黄色', hex: '#FFFF00', pccs: 'y14', munsell: '5Y 8/12', desc: '2級：黄色の説明' },
-    { name: '紫', hex: '#800080', pccs: 'v6', munsell: '5P 3/8', desc: '2級：紫の説明' },
-    { name: 'ピンク', hex: '#FFC0CB', pccs: 'p12', munsell: '5RP 8/4', desc: '2級：ピンクの説明' },
-];
-const colors1 = [...colors2, ...colors3];
+import { colors1, colors2, colors3 } from '../constants/Colors';
+import { borderRadius, colors, layout, spacing, typography } from './styles/tokens';
 
 const { width } = Dimensions.get('window');
 
@@ -26,22 +16,10 @@ export default function Quiz() {
 
     const [currentColorIndex, setCurrentColorIndex] = useState(0);
     const [score, setScore] = useState(0);
-    const [showResult, setShowResult] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
-    const [selectedColor, setSelectedColor] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (showResult) {
-            router.push({
-                pathname: '/result',
-                params: { score: score.toString(), total: colorList.length.toString(), grade: params.grade, mode: params.mode }
-            });
-        }
-    }, [showResult, score, router, colorList.length, params.grade, params.mode]);
 
     const handleAnswer = (selected: string) => {
-        setSelectedColor(selected);
         const correct = selected === colorList[currentColorIndex].name;
         setIsCorrect(correct);
         if (correct) setScore(score + 1);
@@ -50,17 +28,16 @@ export default function Quiz() {
 
     const handleNext = () => {
         setModalVisible(false);
-        setSelectedColor(null);
         if (currentColorIndex < colorList.length - 1) {
             setCurrentColorIndex(currentColorIndex + 1);
         } else {
-            setShowResult(true);
+            // 最後の問題の次へで即リザルト遷移
+            router.push({
+                pathname: '/result',
+                params: { score: score.toString(), total: colorList.length.toString(), grade: params.grade, mode: params.mode }
+            });
         }
     };
-
-    if (showResult) {
-        return null;
-    }
 
     // カスタムヘッダー
     const progress = (currentColorIndex + 1) / colorList.length;
@@ -128,75 +105,83 @@ export default function Quiz() {
 
 const styles = StyleSheet.create({
     container: {
+        ...layout.flex.column,
         flex: 1,
-        backgroundColor: '#FCFBF5',
-        paddingTop: 32,
+        backgroundColor: colors.background,
+        paddingTop: layout.padding.top,
+        paddingBottom: layout.padding.bottom,
+        paddingHorizontal: layout.padding.horizontal,
+        justifyContent: 'space-between',
+        alignItems: 'flex-start',
     },
     header: {
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 20,
-        marginBottom: 12,
+        paddingHorizontal: spacing.lg,
+        marginBottom: spacing.sm,
     },
     closeButton: {
         width: 40,
         height: 40,
         borderRadius: 20,
         borderWidth: 1,
-        borderColor: '#181818',
+        borderColor: colors.text,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: 16,
-        backgroundColor: '#FCFBF5',
+        marginRight: spacing.md,
+        backgroundColor: colors.background,
     },
     closeButtonText: {
         fontSize: 24,
-        color: '#181818',
+        color: colors.text,
         fontWeight: 'bold',
         lineHeight: 28,
+        fontFamily: typography.fontFamily.japanese,
     },
     progressBarBg: {
         flex: 1,
         height: 12,
-        borderRadius: 6,
-        backgroundColor: '#fff',
+        borderRadius: borderRadius.sm,
+        backgroundColor: colors.white,
         borderWidth: 1,
-        borderColor: '#181818',
+        borderColor: colors.text,
         overflow: 'hidden',
     },
     progressBarFill: {
         height: '100%',
-        backgroundColor: '#181818',
-        borderRadius: 6,
+        backgroundColor: colors.text,
+        borderRadius: borderRadius.sm,
     },
     quizContent: {
         flex: 1,
         alignItems: 'center',
-        paddingHorizontal: 16,
+        paddingHorizontal: spacing.md,
     },
     qMark: {
         fontSize: 32,
         fontWeight: 'bold',
-        marginTop: 8,
+        marginTop: spacing.xs,
         marginBottom: 0,
-        color: '#181818',
+        color: colors.text,
         alignSelf: 'flex-start',
+        fontFamily: typography.fontFamily.japanese,
     },
     question: {
         fontSize: 20,
-        color: '#181818',
-        marginBottom: 16,
+        color: colors.text,
+        marginBottom: spacing.md,
         marginTop: 0,
         alignSelf: 'flex-start',
+        fontFamily: typography.fontFamily.japanese,
     },
     colorBox: {
         width: 180,
         height: 180,
-        borderRadius: 90,
-        marginBottom: 32,
+        borderRadius: borderRadius.circle,
+        marginBottom: spacing.xl,
         borderWidth: 1,
-        borderColor: '#181818',
+        borderColor: colors.text,
         alignSelf: 'center',
     },
     optionsGrid: {
@@ -208,106 +193,112 @@ const styles = StyleSheet.create({
         gap: 0,
     },
     optionButton: {
-        width: (width - 64) / 3,
-        margin: 8,
-        backgroundColor: '#FCFBF5',
+        width: (width - spacing.xxl * 2) / 3,
+        margin: spacing.xs,
+        backgroundColor: colors.background,
         borderWidth: 1,
-        borderColor: '#181818',
-        borderRadius: 28,
-        paddingVertical: 14,
+        borderColor: colors.text,
+        borderRadius: borderRadius.lg,
+        paddingVertical: spacing.sm,
         alignItems: 'center',
         justifyContent: 'center',
     },
     optionText: {
-        color: '#181818',
+        color: colors.text,
         fontSize: 16,
         fontWeight: '500',
+        fontFamily: typography.fontFamily.japanese,
     },
-    // モーダル
     modalOverlay: {
         flex: 1,
         backgroundColor: 'rgba(0,0,0,0.12)',
         justifyContent: 'flex-end',
     },
     modalContainer: {
-        backgroundColor: '#FCFBF5',
-        borderTopLeftRadius: 24,
-        borderTopRightRadius: 24,
-        paddingHorizontal: 24,
-        paddingTop: 24,
-        paddingBottom: 40,
+        backgroundColor: colors.background,
+        borderTopLeftRadius: borderRadius.md,
+        borderTopRightRadius: borderRadius.md,
+        paddingHorizontal: spacing.lg,
+        paddingTop: spacing.lg,
+        paddingBottom: spacing.xxl,
         borderWidth: 1,
-        borderColor: '#DADADA',
+        borderColor: colors.border,
         alignItems: 'center',
     },
     modalResult: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 12,
+        marginBottom: spacing.sm,
         marginTop: 0,
+        fontFamily: typography.fontFamily.japanese,
     },
     correct: {
-        color: '#009688',
+        color: colors.success,
     },
     incorrect: {
-        color: '#C85A5A',
+        color: colors.error,
     },
     modalCard: {
         width: '100%',
-        backgroundColor: '#fff',
-        borderRadius: 24,
+        backgroundColor: colors.white,
+        borderRadius: borderRadius.md,
         borderWidth: 1,
-        borderColor: '#181818',
-        padding: 20,
-        marginBottom: 20,
+        borderColor: colors.text,
+        padding: spacing.lg,
+        marginBottom: spacing.lg,
     },
     modalAnswerTitle: {
         fontSize: 22,
         fontWeight: 'bold',
-        color: '#181818',
-        marginBottom: 12,
+        color: colors.text,
+        marginBottom: spacing.sm,
         textAlign: 'center',
+        fontFamily: typography.fontFamily.japanese,
     },
     modalColorRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 12,
+        marginBottom: spacing.sm,
     },
     modalColorCircle: {
         width: 48,
         height: 48,
         borderRadius: 24,
         borderWidth: 1,
-        borderColor: '#181818',
+        borderColor: colors.text,
     },
     modalPccs: {
         fontSize: 16,
-        color: '#181818',
+        color: colors.text,
         fontWeight: '500',
+        fontFamily: typography.fontFamily.japanese,
     },
     modalMunsell: {
         fontSize: 14,
-        color: '#181818',
-        marginTop: 2,
+        color: colors.text,
+        marginTop: spacing.xs,
+        fontFamily: typography.fontFamily.japanese,
     },
     modalDesc: {
         fontSize: 15,
-        color: '#181818',
-        marginTop: 10,
+        color: colors.text,
+        marginTop: spacing.xs,
         lineHeight: 22,
+        fontFamily: typography.fontFamily.japanese,
     },
     modalNextButton: {
-        backgroundColor: '#181818',
-        borderRadius: 40,
-        paddingHorizontal: 40,
-        paddingVertical: 16,
+        backgroundColor: colors.text,
+        borderRadius: borderRadius.xl,
+        paddingHorizontal: spacing.xxl,
+        paddingVertical: spacing.md,
         alignSelf: 'center',
         width: '100%',
     },
     modalNextButtonText: {
-        color: '#fff',
+        color: colors.white,
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
+        fontFamily: typography.fontFamily.japanese,
     },
 });

@@ -1,26 +1,14 @@
-/**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
- */
+// 色彩検定クイズ用の色データ
+export const colors3 = [
+    { name: '桜色', hex: '#F6C6E5', pccs: 'p24+', munsell: '10RP 9/2.5', desc: '3級：桜色の説明' },
+    { name: '青', hex: '#0000FF', pccs: 'b14', munsell: '5PB 5/12', desc: '3級：青の説明' },
+    { name: '緑', hex: '#00FF00', pccs: 'g24', munsell: '5G 6/8', desc: '3級：緑の説明' },
+];
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+export const colors2 = [
+    { name: '黄色', hex: '#FFFF00', pccs: 'y14', munsell: '5Y 8/12', desc: '2級：黄色の説明' },
+    { name: '紫', hex: '#800080', pccs: 'v6', munsell: '5P 3/8', desc: '2級：紫の説明' },
+    { name: 'ピンク', hex: '#FFC0CB', pccs: 'p12', munsell: '5RP 8/4', desc: '2級：ピンクの説明' },
+];
 
-export const Colors = {
-  light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
-  },
-  dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
-  },
-};
+export const colors1 = [...colors2, ...colors3];
