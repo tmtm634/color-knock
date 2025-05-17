@@ -7,7 +7,7 @@ import { QuizOptionsGrid } from '../components/QuizOptionsGrid';
 import { QuizQuestion } from '../components/QuizQuestion';
 import { colors1, colors2, colors3 } from '../constants/Colors';
 import { useQuizSettings } from '../contexts/QuizSettingsContext';
-import { colors, layout } from './styles/tokens';
+import { colors, layout } from '../styles/tokens';
 
 // 配列をシャッフルする関数
 function shuffleArray<T>(array: T[]): T[] {
@@ -117,7 +117,7 @@ export default function Quiz() {
                 <QuizQuestion questionText={questionText} questionView={questionView} />
                 <QuizOptionsGrid options={options} onSelect={handleAnswer} disabled={modalVisible} />
             </View>
-            <QuizModal visible={modalVisible} isCorrect={isCorrect} color={color} onNext={handleNext} />
+            <QuizModal visible={modalVisible} isCorrect={isCorrect} color={color} onNext={handleNext} isLastQuestion={currentColorIndex === colorList.length - 1} />
         </View>
     );
 }

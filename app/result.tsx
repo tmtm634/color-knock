@@ -3,7 +3,7 @@ import { Dimensions, ImageBackground, StyleSheet, Text, View } from 'react-nativ
 import { PrimaryButton } from '../components/PrimaryButton';
 import { SecondaryButton } from '../components/SecondaryButton';
 import { StarRating } from '../components/StarRating';
-import { colors, typography } from './styles/tokens';
+import { colors, typography } from '../styles/tokens';
 
 const { width } = Dimensions.get('window');
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { selection } from '../app/styles/tokens';
+import { selection } from '../styles/tokens';
 
 interface Props {
     grades: string[];

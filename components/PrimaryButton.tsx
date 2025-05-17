@@ -1,6 +1,6 @@
 import React from 'react';
 import { GestureResponderEvent, StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
-import { colors, typography } from '@/app/styles/tokens';
+import { colors, typography } from '../styles/tokens';
 interface Props {
     onPress?: (event: GestureResponderEvent) => void;
     children: React.ReactNode;

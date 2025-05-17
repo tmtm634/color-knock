@@ -5,7 +5,7 @@ import { GradeRadioGroup } from '../components/GradeRadioGroup';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { QuizModeSelector } from '../components/QuizModeSelector';
 import { useQuizSettings } from '../contexts/QuizSettingsContext';
-import { button, layout, selection } from './styles/tokens';
+import { button, layout, selection } from '../styles/tokens';
 
 const GRADES = ['1級', '2級', '3級'];
 const MODES = [

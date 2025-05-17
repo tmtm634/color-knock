@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { colors, typography } from '../app/styles/tokens';
+import { colors, typography } from '../styles/tokens';
 
 interface Mode {
     key: string;

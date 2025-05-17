@@ -24,10 +24,10 @@ export default function RootLayout() {
         <Stack
           screenOptions={{
             headerShown: false,
+            gestureEnabled: false,
           }}
         >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
+          <Stack.Screen name="+not-found" />
           <Stack.Screen
             name="index"
             options={({ route }) => ({
@@ -41,8 +41,8 @@ export default function RootLayout() {
             })}
           />
           <Stack.Screen name="result" options={{ animation: 'slide_from_right' }} />
-      </Stack>
-      <StatusBar style="auto" />
+        </Stack>
+        <StatusBar style="dark" />
       </QuizSettingsProvider>
     </ThemeProvider>
   );

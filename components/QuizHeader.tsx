@@ -1,7 +1,7 @@
 import { MaterialIcons } from '@expo/vector-icons';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { borderRadius, colors, spacing } from '../app/styles/tokens';
+import { borderRadius, colors, spacing } from '../styles/tokens';
 
 interface Props {
     onClose: () => void;

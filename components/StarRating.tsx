@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import StarFill from '../assets/images/star_fill.svg';
 import StarOutline from '../assets/images/star_outline.svg';
-import { colors } from '@/app/styles/tokens';
+import { colors } from '../styles/tokens';
 
 interface Props {
     score: number;

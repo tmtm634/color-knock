@@ -1,6 +1,6 @@
-import { colors, typography } from '@/app/styles/tokens';
 import React from 'react';
 import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
+import { colors, typography } from '../styles/tokens';
 
 interface Props {
     onPress?: () => void;
@@ -23,7 +23,7 @@ export const SecondaryButton: React.FC<Props> = ({ onPress, children, style, tex
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: colors.white,
+        backgroundColor: colors.background,
         borderRadius: 9999,
         borderWidth: 1,
         borderColor: colors.text,

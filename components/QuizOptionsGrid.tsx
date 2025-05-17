@@ -1,6 +1,6 @@
 import React from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { colors, typography } from '../app/styles/tokens';
+import { colors, typography } from '../styles/tokens';
 
 const { width } = Dimensions.get('window');
 const COLS = 3;

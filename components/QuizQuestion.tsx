@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { colors, spacing, typography } from '../app/styles/tokens';
+import { colors, spacing, typography } from '../styles/tokens';
 
 interface Props {
     questionText: string;

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { Animated, Modal, StyleSheet, Text, View } from 'react-native';
-import { colors, typography } from '../app/styles/tokens';
+import { colors, typography } from '../styles/tokens';
 import { PrimaryButton } from './PrimaryButton';
 
 interface ColorData {
