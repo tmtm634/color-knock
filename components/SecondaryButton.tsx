@@ -1,15 +1,16 @@
-import React from 'react';
-import { GestureResponderEvent, StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
 import { colors, typography } from '@/app/styles/tokens';
+import React from 'react';
+import { StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
+
 interface Props {
-    onPress?: (event: GestureResponderEvent) => void;
+    onPress?: () => void;
     children: React.ReactNode;
     style?: ViewStyle;
     textStyle?: TextStyle;
     disabled?: boolean;
 }
 
-export const PrimaryButton: React.FC<Props> = ({ onPress, children, style, textStyle, disabled }) => (
+export const SecondaryButton: React.FC<Props> = ({ onPress, children, style, textStyle, disabled }) => (
     <TouchableOpacity
         style={[styles.button, style, disabled && styles.disabled]}
         onPress={onPress}
@@ -22,15 +23,17 @@ export const PrimaryButton: React.FC<Props> = ({ onPress, children, style, textS
 
 const styles = StyleSheet.create({
     button: {
-        backgroundColor: '#181818',
+        backgroundColor: colors.white,
         borderRadius: 9999,
+        borderWidth: 1,
+        borderColor: colors.text,
         paddingHorizontal: 40,
         paddingVertical: 22,
         alignSelf: 'center',
         width: '100%',
     },
     text: {
-        color: colors.white,
+        color: colors.text,
         fontSize: 16,
         fontWeight: '600',
         textAlign: 'center',

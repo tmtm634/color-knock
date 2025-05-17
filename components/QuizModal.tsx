@@ -75,7 +75,7 @@ export const QuizModal: React.FC<Props> = ({ visible, isCorrect, color, onNext, 
                             }
                         </Text>
                         <PrimaryButton onPress={onNext}>
-                            {isLastQuestion ? '結果を見る' : '次の問題へ'}
+                            次へ
                         </PrimaryButton>
                     </View>
                 </Animated.View>
