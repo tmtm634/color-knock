@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Dimensions, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const { width } = Dimensions.get('window');
 
@@ -24,30 +24,36 @@ export default function Result() {
     const stars = getStars(percentage);
 
     return (
-        <View style={styles.container}>
-            <View style={styles.card}>
-                <Text style={styles.title}>クイズ完了！</Text>
-                <View style={styles.starsRow}>
-                    {[...Array(5)].map((_, i) => (
-                        <Text key={i} style={i < stars ? styles.starActive : styles.star}>★</Text>
-                    ))}
+        <View style={styles.bgBase}>
+            <ImageBackground source={require('../assets/images/result.png')} style={styles.bgImage} imageStyle={styles.bgImageInner}>
+                <View style={styles.container}>
+                    <Text style={styles.title}>クイズ完了！</Text>
+                    <View style={styles.contentBox}>
+                        <View style={styles.card}>
+                            <View style={styles.starsRow}>
+                                {[...Array(5)].map((_, i) => (
+                                    <Text key={i} style={i < stars ? styles.starActive : styles.star}>★</Text>
+                                ))}
+                            </View>
+                            <Text style={styles.scoreText}>
+                                {score}/{total} ({percentage}%)
+                            </Text>
+                        </View>
+                        <TouchableOpacity
+                            style={styles.primaryButton}
+                            onPress={() => router.replace('/')}
+                        >
+                            <Text style={styles.primaryButtonText}>モード選択に戻る</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.secondaryButton}
+                            onPress={() => router.replace({ pathname: '/quiz', params: { grade, mode } })}
+                        >
+                            <Text style={styles.secondaryButtonText}>もう一度プレイ</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <Text style={styles.scoreText}>
-                    {score}/{total} ({percentage}%)
-                </Text>
-            </View>
-            <TouchableOpacity
-                style={styles.primaryButton}
-                onPress={() => router.replace('/')}
-            >
-                <Text style={styles.primaryButtonText}>モード選択に戻る</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.secondaryButton}
-                onPress={() => router.replace({ pathname: '/quiz', params: { grade, mode } })}
-            >
-                <Text style={styles.secondaryButtonText}>もう一度プレイ</Text>
-            </TouchableOpacity>
+            </ImageBackground>
         </View>
     );
 }
@@ -55,7 +61,7 @@ export default function Result() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FCFBF5',
+        backgroundColor: 'transparent',
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 0,
@@ -128,5 +134,23 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
+    },
+    bgImage: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+    },
+    bgImageInner: {
+        resizeMode: 'cover',
+    },
+    bgBase: {
+        flex: 1,
+        backgroundColor: '#FCFBF5',
+    },
+    contentBox: {
+        width: '100%',
+        paddingHorizontal: 24,
+        paddingTop: 24,
+        alignItems: 'center',
     },
 });

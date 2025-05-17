@@ -1,9 +1,10 @@
 import { Link } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dimensions, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import { GradeRadioGroup } from '../components/GradeRadioGroup';
 import { PrimaryButton } from '../components/PrimaryButton';
 import { QuizModeSelector } from '../components/QuizModeSelector';
+import { useQuizSettings } from '../contexts/QuizSettingsContext';
 import { button, layout, selection } from './styles/tokens';
 
 const GRADES = ['1級', '2級', '3級'];
@@ -46,6 +47,17 @@ const CARD_WIDTH = width - (layout.padding.horizontal * 2);
 export default function Home() {
     const [selectedGrade, setSelectedGrade] = useState('1級');
     const [selectedModeIndex, setSelectedModeIndex] = useState(0);
+    const { setGrade, setMode, mode, grade } = useQuizSettings();
+
+    useEffect(() => {
+        if (mode) {
+            const idx = MODES.findIndex(m => m.key === mode);
+            if (idx !== -1) setSelectedModeIndex(idx);
+        }
+        if (grade) {
+            setSelectedGrade(grade);
+        }
+    }, [mode, grade]);
 
     return (
         <View style={{ flex: 1, backgroundColor: '#FFFEF7' }}>
@@ -78,6 +90,10 @@ export default function Home() {
                             <Link
                                 href={{ pathname: '/quiz', params: { grade: selectedGrade, mode: MODES[selectedModeIndex].key } }}
                                 asChild
+                                onPress={() => {
+                                    setGrade(selectedGrade);
+                                    setMode(MODES[selectedModeIndex].key);
+                                }}
                             >
                                 <PrimaryButton>
                                     クイズをスタート

@@ -5,6 +5,7 @@ import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { QuizSettingsProvider } from '../contexts/QuizSettingsContext';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -19,15 +20,30 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-      <StatusBar style="auto" />
+      <QuizSettingsProvider>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen name="+not-found" />
+          <Stack.Screen
+            name="index"
+            options={({ route }) => ({
+              animation: (route.params as any)?.fromResult === 'true' ? 'fade' : 'slide_from_left',
+            })}
+          />
+          <Stack.Screen
+            name="quiz"
+            options={({ route }) => ({
+              animation: (route.params as any)?.fromResult === 'true' ? 'fade' : 'none',
+            })}
+          />
+          <Stack.Screen name="result" options={{ animation: 'slide_from_right' }} />
+        </Stack>
+        <StatusBar style="auto" />
+      </QuizSettingsProvider>
     </ThemeProvider>
   );
 }

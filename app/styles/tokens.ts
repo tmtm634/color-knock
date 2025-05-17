@@ -56,7 +56,7 @@ export const spacing = {
 
 export const layout = {
     padding: {
-        top: 72,
+        top: 64,
         bottom: 32,
         horizontal: 24,
     },
@@ -128,8 +128,7 @@ export const selection = {
     radio: {
         container: {
             display: 'flex',
-            height: 62,
-            padding: 0,
+            padding: 16,
             justifyContent: 'center',
             alignItems: 'center',
             flex: 1,
@@ -140,8 +139,7 @@ export const selection = {
         } as ViewStyle,
         containerSelected: {
             display: 'flex',
-            height: 62,
-            padding: 0,
+             padding: 16,
             justifyContent: 'center',
             alignItems: 'center',
             flex: 1,

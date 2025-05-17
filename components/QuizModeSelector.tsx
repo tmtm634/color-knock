@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { colors, typography } from '../app/styles/tokens';
 
@@ -25,6 +25,17 @@ const snapWidth = CARD_WIDTH + CARD_GAP;
 const SIDE_PADDING = (Dimensions.get('window').width - CARD_WIDTH) / 2;
 
 export const QuizModeSelector: React.FC<Props> = ({ modes, selectedIndex, onSelect }) => {
+    const scrollRef = useRef<ScrollView>(null);
+
+    useEffect(() => {
+        if (scrollRef.current) {
+            scrollRef.current.scrollTo({
+                x: selectedIndex * snapWidth,
+                animated: false,
+            });
+        }
+    }, [selectedIndex]);
+
     const handleScroll = (event: any) => {
         const contentOffset = event.nativeEvent.contentOffset.x;
         const index = Math.round(contentOffset / snapWidth);
@@ -44,6 +55,7 @@ export const QuizModeSelector: React.FC<Props> = ({ modes, selectedIndex, onSele
                 contentContainerStyle={{ paddingHorizontal: SIDE_PADDING }}
                 onScroll={handleScroll}
                 scrollEventThrottle={16}
+                ref={scrollRef}
             >
                 {modes.map((mode, index) => (
                     <TouchableOpacity
