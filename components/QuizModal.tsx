@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, Modal, StyleSheet, Text, View } from 'react-native';
 import { colors, typography } from '../app/styles/tokens';
+import { PrimaryButton } from './PrimaryButton';
 
 interface ColorData {
     name: string;
@@ -15,9 +16,10 @@ interface Props {
     isCorrect: boolean;
     color: ColorData;
     onNext: () => void;
+    isLastQuestion: boolean;
 }
 
-export const QuizModal: React.FC<Props> = ({ visible, isCorrect, color, onNext }) => {
+export const QuizModal: React.FC<Props> = ({ visible, isCorrect, color, onNext, isLastQuestion }) => {
     const overlayOpacity = useRef(new Animated.Value(0)).current;
     const cardTranslateY = useRef(new Animated.Value(40)).current;
 
@@ -64,10 +66,17 @@ export const QuizModal: React.FC<Props> = ({ visible, isCorrect, color, onNext }
                                 </View>
                             </View>
                         </View>
-                        <Text style={styles.descText}>{color.desc}</Text>
-                        <TouchableOpacity style={styles.nextButton} onPress={onNext}>
-                            <Text style={styles.nextButtonText}>次へ</Text>
-                        </TouchableOpacity>
+                        <Text style={styles.descText}>
+                            {color.desc
+                                .replace(/<br\s*\/?>(\s*)/gi, '\n')
+                                .split('\n')
+                                .map(line => line.trim())
+                                .join('\n')
+                            }
+                        </Text>
+                        <PrimaryButton onPress={onNext}>
+                            {isLastQuestion ? '結果を見る' : '次の問題へ'}
+                        </PrimaryButton>
                     </View>
                 </Animated.View>
             </Animated.View>
@@ -95,26 +104,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomWidth: 1,
         borderBottomColor: colors.text,
-        marginBottom: 24,
+        marginBottom: 32,
         paddingHorizontal: 24,
-        display: 'flex',
-        paddingTop: 16,
-        paddingBottom: 16,
-        paddingLeft: 24,
-        paddingRight: 24,
+        paddingVertical: 16,
         justifyContent: 'center',
-        gap: 10,
-        alignSelf: 'stretch',
     },
     resultText: {
         fontSize: 20,
-        fontStyle: 'normal',
         fontWeight: '600',
         lineHeight: 20,
         fontFamily: typography.fontFamily.japanese,
-        textAlign: 'center',
-        marginTop: 0,
-        marginBottom: 0,
     },
     correct: {
         color: colors.success,
@@ -123,74 +122,58 @@ const styles = StyleSheet.create({
         color: colors.error,
     },
     answerTitle: {
-        fontSize: 28,
-        fontWeight: 'bold',
+        fontSize: 24,
+        fontWeight: '700',
         color: colors.text,
-        marginBottom: 28,
+        marginBottom: 24,
         textAlign: 'center',
         fontFamily: typography.fontFamily.japanese,
     },
     infoCard: {
         width: '100%',
         backgroundColor: colors.white,
-        borderRadius: 20,
+        borderRadius: 16,
         borderWidth: 1,
-        borderColor: colors.text,
-        padding: 20,
-        marginBottom: 32,
+        borderColor: colors.primary,
+        padding: 12,
+        marginBottom: 24,
     },
     infoRow: {
         flexDirection: 'row',
         alignItems: 'center',
     },
     colorCircle: {
-        width: 72,
-        height: 72,
-        borderRadius: 36,
+        width: 64,
+        height: 64,
+        borderRadius: 9999,
         borderWidth: 1,
-        borderColor: colors.text,
-        marginRight: 20,
+        borderColor: colors.primary,
+        marginRight: 16,
     },
     infoTextCol: {
         justifyContent: 'center',
     },
     pccsText: {
-        fontSize: 18,
+        fontSize: 14,
         color: colors.text,
-        fontWeight: '500',
-        fontFamily: typography.fontFamily.japanese,
+        fontWeight: '400',
+        fontFamily: typography.fontFamily.english,
         marginBottom: 4,
     },
     munsellText: {
-        fontSize: 16,
+        fontSize: 14,
         color: colors.text,
-        fontFamily: typography.fontFamily.japanese,
+        fontFamily: typography.fontFamily.english,
     },
     descText: {
-        fontSize: 16,
+        fontSize: 14,
         color: colors.text,
-        marginTop: 0,
-        marginBottom: 32,
-        lineHeight: 24,
+        marginBottom: 48,
+        lineHeight: 22.4,
         fontFamily: typography.fontFamily.japanese,
         textAlign: 'left',
-    },
-    nextButton: {
-        backgroundColor: colors.text,
-        borderRadius: 9999,
-        paddingVertical: 19,
-        paddingHorizontal: 7,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
-        height: 62,
-    },
-    nextButtonText: {
-        color: colors.white,
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-        fontFamily: typography.fontFamily.japanese,
+        flexWrap: 'wrap',
+        flexShrink: 1,
     },
     contentBox: {
         width: '100%',
