@@ -31,13 +31,13 @@ export default function RootLayout() {
           <Stack.Screen
             name="index"
             options={({ route }) => ({
-              animation: (route.params as any)?.fromResult === 'true' ? 'fade' : 'slide_from_left',
+              animation: (route.params as any)?.fromResult === 'true' ? 'slide_from_left' : 'none',
             })}
           />
           <Stack.Screen
             name="quiz"
             options={({ route }) => ({
-              animation: (route.params as any)?.fromResult === 'true' ? 'fade' : 'none',
+              animation: (route.params as any)?.fromResult === 'true' ? 'slide_from_left' : 'slide_from_right',
             })}
           />
           <Stack.Screen name="result" options={{ animation: 'slide_from_right' }} />

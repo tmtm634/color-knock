@@ -40,7 +40,7 @@ export default function Result() {
                     </View>
                     <View style={styles.contentBox}>
                         <PrimaryButton onPress={() => router.replace('/')}>モード選択に戻る</PrimaryButton>
-                        <SecondaryButton onPress={() => router.replace({ pathname: '/quiz', params: { grade, mode } })}>もう一度プレイ</SecondaryButton>
+                        <SecondaryButton onPress={() => router.replace({ pathname: '/quiz', params: { grade, mode, fromResult: 'true' } })}>もう一度プレイ</SecondaryButton>
                     </View>
                 </View>
             </ImageBackground>
