@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "color-quiz",
-    "slug": "color-quiz",
+    "name": "Color Knock",
+    "slug": "color-knock",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "colorquiz",
+    "scheme": "colorknock",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
