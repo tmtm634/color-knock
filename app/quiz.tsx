@@ -27,7 +27,14 @@ export default function Quiz() {
     if (grade === '2級') baseColorList = colors2;
     if (grade === '1級') baseColorList = colors1;
 
-    const [colorList, setColorList] = useState(() => shuffleArray(baseColorList));
+    const [colorList, setColorList] = useState(() => {
+        const list = shuffleArray(baseColorList);
+        // 和名と洋名を分けて出題
+        if (mode === 'name-to-color') {
+            return list.filter(color => color.origin === 'japanese');
+        }
+        return list;
+    });
     const [currentColorIndex, setCurrentColorIndex] = useState(0);
     const [score, setScore] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
@@ -49,8 +56,13 @@ export default function Quiz() {
     const options = useMemo(() => {
         let pool: string[] = [];
         let answer: string = '';
-        if (mode === 'color-to-name' || mode === 'name-to-color') {
+        if (mode === 'color-to-name') {
             pool = colorList.map(c => c.name).filter(n => n !== color.name);
+            answer = color.name;
+        } else if (mode === 'name-to-color') {
+            // 出題と同じ種類（和名/洋名）の色のみを選択肢として使用
+            const filteredList = colorList.filter(c => c.origin === color.origin);
+            pool = filteredList.map(c => c.name).filter(n => n !== color.name);
             answer = color.name;
         } else if (mode === 'name-to-pccs') {
             pool = colorList.map(c => c.pccs).filter(p => p !== color.pccs);
