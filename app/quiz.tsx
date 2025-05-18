@@ -19,6 +19,45 @@ function shuffleArray<T>(array: T[]): T[] {
     return arr;
 }
 
+// PCCS記号から色相とトーンを抽出する関数
+function parsePCCS(pccs: string): { hue: string; tone: string } {
+    // 例: "lt24+" -> { hue: "24", tone: "lt" }
+    const match = pccs.match(/^([a-z]+)(\d+)(\+)?$/);
+    if (!match) return { hue: '', tone: '' };
+    return { hue: match[2], tone: match[1] };
+}
+
+// 色相が近似しているか判定する関数
+function isSimilarHue(hue1: string, hue2: string): boolean {
+    const h1 = parseInt(hue1);
+    const h2 = parseInt(hue2);
+    if (isNaN(h1) || isNaN(h2)) return false;
+
+    // 色相環上での距離を計算（24色相環）
+    const diff = Math.abs(h1 - h2);
+    return diff <= 2 || diff >= 22; // 2色相以内を近似とみなす
+}
+
+// トーンが近似しているか判定する関数
+function isSimilarTone(tone1: string, tone2: string): boolean {
+    // 同じトーンは近似
+    if (tone1 === tone2) return true;
+
+    // トーンの近似関係を定義
+    const toneGroups: Record<string, string[]> = {
+        'v': ['b', 's'], // ビビッドはブライト、ストロングと近似
+        'b': ['v', 's', 'lt'], // ブライトはビビッド、ストロング、ライトと近似
+        's': ['v', 'b', 'dk'], // ストロングはビビッド、ブライト、ダークと近似
+        'lt': ['b', 'p'], // ライトはブライト、ペールと近似
+        'p': ['lt', 'sf'], // ペールはライト、ソフトと近似
+        'sf': ['p', 'dk', 'd'], // ソフトはペール、ダーク、ダルと近似
+        'dk': ['s', 'sf', 'd'], // ダークはストロング、ソフト、ダルと近似
+        'd': ['sf', 'dk'], // ダルはソフト、ダークと近似
+    };
+
+    return toneGroups[tone1]?.includes(tone2) || toneGroups[tone2]?.includes(tone1);
+}
+
 export default function Quiz() {
     const router = useRouter();
     const params = useLocalSearchParams();
@@ -57,7 +96,14 @@ export default function Quiz() {
         let pool: string[] = [];
         let answer: string = '';
         if (mode === 'color-to-name') {
-            pool = colorList.map(c => c.name).filter(n => n !== color.name);
+            // 色相とトーンが近似している色を除外
+            const currentPCCS = parsePCCS(color.pccs);
+            const filteredList = colorList.filter(c => {
+                const otherPCCS = parsePCCS(c.pccs);
+                return !(isSimilarHue(currentPCCS.hue, otherPCCS.hue) &&
+                    isSimilarTone(currentPCCS.tone, otherPCCS.tone));
+            });
+            pool = filteredList.map(c => c.name).filter(n => n !== color.name);
             answer = color.name;
         } else if (mode === 'name-to-color') {
             // 出題と同じ種類（和名/洋名）の色のみを選択肢として使用
@@ -65,7 +111,14 @@ export default function Quiz() {
             pool = filteredList.map(c => c.name).filter(n => n !== color.name);
             answer = color.name;
         } else if (mode === 'name-to-pccs') {
-            pool = colorList.map(c => c.pccs).filter(p => p !== color.pccs);
+            // 色相とトーンが近似している色を除外
+            const currentPCCS = parsePCCS(color.pccs);
+            const filteredList = colorList.filter(c => {
+                const otherPCCS = parsePCCS(c.pccs);
+                return !(isSimilarHue(currentPCCS.hue, otherPCCS.hue) &&
+                    isSimilarTone(currentPCCS.tone, otherPCCS.tone));
+            });
+            pool = filteredList.map(c => c.pccs).filter(p => p !== color.pccs);
             answer = color.pccs;
         }
         // poolからランダムに11個選ぶ
