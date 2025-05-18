@@ -13,7 +13,7 @@ interface Props {
 export const QuizHeader: React.FC<Props> = ({ onClose, progress, current, total }) => (
     <View style={styles.header}>
         <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <MaterialIcons name="close" size={26} color={colors.text} />
+            <MaterialIcons name="close" size={28} color={colors.text} />
         </TouchableOpacity>
         <View style={styles.progressBarContainer}>
             <View style={styles.progressBarBg}>
@@ -59,8 +59,7 @@ const styles = StyleSheet.create({
         borderRadius: borderRadius.sm,
     },
     progressTextContainer: {
-        marginLeft: 14,
-        minWidth: 48,
+        width: 72,
         alignItems: 'flex-end',
     },
     progressTextRow: {
