@@ -9,6 +9,7 @@ interface ColorData {
     pccs: string;
     munsell: string;
     desc: string;
+    ruby?: string;
 }
 
 interface Props {
@@ -56,7 +57,13 @@ export const QuizModal: React.FC<Props> = ({ visible, isCorrect, color, onNext, 
                         <Text style={[styles.resultText, isCorrect ? styles.correct : styles.incorrect]}>{isCorrect ? '正解！' : '不正解...'}</Text>
                     </View>
                     <View style={styles.contentBox}>
-                        <Text style={styles.answerTitle}>正解：{color.name}</Text>
+                        <View style={styles.answerTitleContainer}>
+                            <Text style={styles.answerLabel}>正解：</Text>
+                            <View style={styles.answerNameContainer}>
+                                <Text style={styles.answerRuby}>{color.ruby}</Text>
+                                <Text style={styles.answerName}>{color.name}</Text>
+                            </View>
+                        </View>
                         <View style={styles.infoCard}>
                             <View style={styles.infoRow}>
                                 <View style={[styles.colorCircle, { backgroundColor: color.hex }]} />
@@ -121,13 +128,32 @@ const styles = StyleSheet.create({
     incorrect: {
         color: colors.error,
     },
-    answerTitle: {
+    answerTitleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 24,
+    },
+    answerLabel: {
+        marginTop: 16,
+        fontSize: 16,
+        fontWeight: '500',
+        color: colors.text,
+        fontFamily: typography.fontFamily.japanese,
+    },
+    answerNameContainer: {
+        alignItems: 'center',
+    },
+    answerName: {
         fontSize: 24,
         fontWeight: '700',
         color: colors.text,
-        marginBottom: 24,
-        textAlign: 'center',
         fontFamily: typography.fontFamily.japanese,
+    },
+    answerRuby: {
+        fontSize: 11,
+        color: colors.text,
+        fontFamily: typography.fontFamily.japanese,
+        marginBottom: 2,
     },
     infoCard: {
         width: '100%',

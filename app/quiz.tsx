@@ -157,10 +157,10 @@ const styles = StyleSheet.create({
         fontFamily: 'Hiragino Sans',
     },
     questionName: {
-        fontSize: 24,
+        fontSize: 32,
         color: colors.text,
         marginTop: 8,
-        lineHeight: 24,
+        lineHeight: 32,
         fontFamily: 'Hiragino Sans',
         fontWeight: 'bold',
     },

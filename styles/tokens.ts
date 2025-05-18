@@ -149,7 +149,7 @@ export const selection = {
         } as ViewStyle,
         text: {
             fontSize: 18,
-            fontWeight: '300',
+            fontWeight: '400',
             color: colors.text,
             fontFamily: typography.fontFamily.japanese,
             textAlignVertical: 'center',
@@ -157,7 +157,7 @@ export const selection = {
         } as TextStyle,
         textSelected: {
             fontSize: 18,
-            fontWeight: '700',
+            fontWeight: '600',
             color: colors.white,
             fontFamily: typography.fontFamily.japanese,
             textAlignVertical: 'center',
