@@ -29,7 +29,7 @@ export default function Result() {
 
     return (
         <View style={styles.bgBase}>
-            <ImageBackground source={require('../assets/images/result.png')} style={styles.bgImage} imageStyle={styles.bgImageInner}>
+            <ImageBackground source={require('../assets/images/bg_graph_paper.png')} style={styles.bgImage} imageStyle={styles.bgImageInner}>
                 <View style={styles.container}>
                     <View style={styles.card}>
                         <Text style={styles.title}>クイズ完了！</Text>

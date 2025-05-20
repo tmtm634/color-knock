@@ -39,7 +39,7 @@ export const QuizOptionsGrid: React.FC<Props> = ({ options, onSelect, disabled }
                             ]}
                             onPress={() => opt && onSelect(opt)}
                             disabled={disabled || !opt}
-                            activeOpacity={opt ? 0.7 : 1}
+                            activeOpacity={opt ? 0.8 : 1}
                         >
                             <Text
                                 style={[styles.optionText, !opt && { color: 'transparent' }]}

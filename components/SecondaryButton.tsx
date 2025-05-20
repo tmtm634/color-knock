@@ -14,7 +14,7 @@ export const SecondaryButton: React.FC<Props> = ({ onPress, children, style, tex
     <TouchableOpacity
         style={[styles.button, style, disabled && styles.disabled]}
         onPress={onPress}
-        activeOpacity={0.7}
+        activeOpacity={0.8}
         disabled={disabled}
     >
         <Text style={[styles.text, textStyle]}>{children}</Text>

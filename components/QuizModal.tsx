@@ -53,8 +53,15 @@ export const QuizModal: React.FC<Props> = ({ visible, isCorrect, color, onNext, 
         >
             <Animated.View style={[styles.modalOverlay, { opacity: overlayOpacity }]}>
                 <Animated.View style={[styles.modalContainer, { transform: [{ translateY: cardTranslateY }] }]}>
-                    <View style={styles.resultHeader}>
-                        <Text style={[styles.resultText, isCorrect ? styles.correct : styles.incorrect]}>{isCorrect ? '正解！' : '不正解...'}</Text>
+                    <View
+                        style={[
+                            styles.resultHeader,
+                            { backgroundColor: isCorrect ? '#C7F4D2' : '#FFD4DE' }
+                        ]}
+                    >
+                        <Text style={[styles.resultText, { color: isCorrect ? '#04681D' : '#AA1C3D' }]}>
+                            {isCorrect ? '正解！' : '不正解...'}
+                        </Text>
                     </View>
                     <View style={styles.contentBox}>
                         <View style={styles.answerTitleContainer}>
@@ -100,7 +107,6 @@ const styles = StyleSheet.create({
     modalContainer: {
         backgroundColor: colors.background,
         paddingHorizontal: 0,
-        paddingBottom: 32,
         borderTopWidth: 1,
         borderColor: colors.text,
         alignItems: 'center',
@@ -109,9 +115,8 @@ const styles = StyleSheet.create({
     resultHeader: {
         width: '100%',
         alignItems: 'center',
-        borderBottomWidth: 1,
         borderBottomColor: colors.text,
-        marginBottom: 32,
+        borderBottomWidth: 1,
         paddingHorizontal: 24,
         paddingVertical: 16,
         justifyContent: 'center',
@@ -204,6 +209,8 @@ const styles = StyleSheet.create({
     contentBox: {
         width: '100%',
         paddingHorizontal: 24,
+        paddingTop: 24,
+        paddingBottom: 32,
         alignItems: 'center',
     },
 });

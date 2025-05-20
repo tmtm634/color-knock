@@ -16,6 +16,7 @@ export const GradeRadioGroup: React.FC<Props> = ({ grades, selectedGrade, onSele
                     key={grade}
                     style={[styles.button, selectedGrade === grade && styles.buttonSelected]}
                     onPress={() => onSelect(grade)}
+                    activeOpacity={0.8}
                 >
                     <Text style={[styles.text, selectedGrade === grade && styles.textSelected]}>{grade}</Text>
                 </TouchableOpacity>

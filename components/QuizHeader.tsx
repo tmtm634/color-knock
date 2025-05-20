@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         marginBottom: spacing.lg,
     },
     closeButton: {
-        marginRight: spacing.sm,
+        marginRight: 16,
     },
     progressBarContainer: {
         flex: 1,
@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: colors.primary,
         overflow: 'hidden',
+        marginRight: 8,
     },
     progressBarFill: {
         height: '100%',
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
         borderRadius: borderRadius.sm,
     },
     progressTextContainer: {
-        width: 72,
+        minWidth: 62,
         alignItems: 'flex-end',
     },
     progressTextRow: {
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: colors.primary,
-        marginRight: 4,
+        marginRight: 2,
     },
     progressTotal: {
         fontSize: 12,

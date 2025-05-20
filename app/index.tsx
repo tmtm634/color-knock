@@ -62,7 +62,7 @@ export default function Home() {
     return (
         <View style={{ flex: 1, backgroundColor: '#FFFEF7' }}>
             <ImageBackground
-                source={require('../assets/images/home.png')}
+                source={require('../assets/images/bg_graph_paper.png')}
                 style={{ flex: 1 }}
                 resizeMode="cover"
             >

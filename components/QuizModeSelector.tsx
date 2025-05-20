@@ -63,7 +63,7 @@ export const QuizModeSelector: React.FC<Props> = ({ modes, selectedIndex, onSele
                         style={[
                             styles.modeCard,
                             index === selectedIndex && styles.modeCardSelected,
-                            { width: CARD_WIDTH, marginRight: index === modes.length - 1 ? 0 : CARD_GAP, opacity: index === selectedIndex ? 1 : 0.3 }
+                            { width: CARD_WIDTH, marginRight: index === modes.length - 1 ? 0 : CARD_GAP, opacity: index === selectedIndex ? 1 : 0.8 }
                         ]}
                         onPress={() => onSelect(index)}
                         activeOpacity={0.8}
@@ -121,7 +121,8 @@ const styles = StyleSheet.create({
         zIndex: 2,
         alignItems: 'flex-start',
         justifyContent: 'center',
-        paddingVertical: 28,
+        paddingTop: 28,
+        paddingBottom: 24,
         paddingHorizontal: 24,
     },
     modeCardBottom: {
