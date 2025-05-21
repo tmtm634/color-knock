@@ -15,10 +15,18 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "jp.colorknock.app",
-      "buildNumber": "1.0.0"
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "568fd384-91a2-4466-bb70-22eb26ba1220"
+      }
     }
   }
 }
