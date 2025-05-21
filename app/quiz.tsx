@@ -40,21 +40,23 @@ function isSimilarHue(hue1: string, hue2: string): boolean {
 
 // トーンが近似しているか判定する関数
 function isSimilarTone(tone1: string, tone2: string): boolean {
-    // 同じトーンは近似
     if (tone1 === tone2) return true;
-
-    // トーンの近似関係を定義
     const toneGroups: Record<string, string[]> = {
-        'v': ['b', 's'], // ビビッドはブライト、ストロングと近似
-        'b': ['v', 's', 'lt'], // ブライトはビビッド、ストロング、ライトと近似
-        's': ['v', 'b', 'dk'], // ストロングはビビッド、ブライト、ダークと近似
-        'lt': ['b', 'p'], // ライトはブライト、ペールと近似
-        'p': ['lt', 'sf'], // ペールはライト、ソフトと近似
-        'sf': ['p', 'dk', 'd'], // ソフトはペール、ダーク、ダルと近似
-        'dk': ['s', 'sf', 'd'], // ダークはストロング、ソフト、ダルと近似
-        'd': ['sf', 'dk'], // ダルはソフト、ダークと近似
+        v: ['b', 'dp'],
+        b: ['v', 'lt', 'sf'],
+        lt: ['b', 'p', 'sf', 'ltg'],
+        p: ['lt', 'sf', 'ltg'],
+        sf: ['p', 'lt', 'ltg', 'd', 'g', 'b'],
+        ltg: ['p', 'sf', 'g', 'd', 'lt'],
+        d: ['sf', 'g', 'dk', 'dp'],
+        dp: ['v', 'd', 'dk'],
+        dk: ['d', 'dp', 'dkg', 'g'],
+        dkg: ['dk', 'g', 'd', 'Gy', 'Bk'],
+        g: ['ltg', 'sf', 'd', 'dk', 'dkg', 'Gy'],
+        Gy: ['g', 'dkg', 'Bk', 'mGy'],
+        Bk: ['dkg', 'Gy'],
+        // 必要に応じて他のトーンも追加
     };
-
     return toneGroups[tone1]?.includes(tone2) || toneGroups[tone2]?.includes(tone1);
 }
 
